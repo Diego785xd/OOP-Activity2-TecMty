@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include <ranges>
+//#include <ranges>
+#include <ctime>
 
 //Se hace una declaración adelantada de la clase Mensaje
 class Mensaje;
@@ -145,6 +146,7 @@ public:
                     std::cout << " y ";
                 }
             }
+
             std::cout << std::endl;
         }
 
@@ -177,7 +179,14 @@ public:
 
 };
 
+std::string currentDateTime() {
+    std::time_t t = std::time(nullptr);
+    std::tm* now = std::localtime(&t);
 
+    char buffer[128];
+    strftime(buffer, sizeof(buffer), "%m-%d-%Y %X", now);
+    return buffer;
+}
 
 /*
  *
@@ -186,6 +195,7 @@ public:
  *
  *
  * */
+
 
 
 int main() {
@@ -202,8 +212,7 @@ int main() {
     Rossi.AgregarContacto(Jime);
     Rossi.VerListaContactos();
     Rossi.enviarMensaje();
+    std::cout << "Fecha y hora de envio: " << currentDateTime() << std::endl;
 
-
-
-
+    return 0;
 }
