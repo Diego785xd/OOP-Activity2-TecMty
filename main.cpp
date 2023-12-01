@@ -22,52 +22,52 @@ private:
     std::string Nombre;
     std::string Correo;
     std::string User;
-    std::vector<Usuario*> ListaContactos;
+    std::vector<Usuario *> ListaContactos;
 
 
 public:
 
     //Constructor que guarda el valor en la lista de posibles correos
-    Usuario(const std::string &nombre, const std::string &correo, const std::string &user){
+    Usuario(const std::string &nombre, const std::string &correo, const std::string &user) {
         Nombre = nombre;
         Correo = correo;
         User = user;
     }
 
-    void DatosUsuario(){
+    void DatosUsuario() {
         std::cout << Nombre << " " << Correo << " " << User << std::endl;
 
     }
 
-    void AgregarContacto(Usuario &amigo){
+    void AgregarContacto(Usuario &amigo) {
 
         amigo.DatosUsuario();
         std::cout << &amigo << std::endl;
         ListaContactos.push_back(&amigo);
-        std::cout << "Tu amigo " << amigo.Nombre << " fue agregado" <<std::endl;
+        std::cout << "Tu amigo " << amigo.Nombre << " fue agregado" << std::endl;
 
     }
 
-    void VerListaContactos(){
+    void VerListaContactos() {
 
-        std::cout << "En total tienes " << ListaContactos.size() << " amigos"<<std::endl;
+        std::cout << "En total tienes " << ListaContactos.size() << " amigos" << std::endl;
 
-        for (const auto& obj : ListaContactos) {
-            std::cout << obj->Nombre <<std::endl;
+        for (const auto &obj: ListaContactos) {
+            std::cout << obj->Nombre << std::endl;
         }
     }
 
-    void enviarMensaje(const std::string& texto){
-        Mensaje mensaje(texto, this);
-        for (auto& contacto : ListaContactos) {
-            mensaje.nomDestinatario(contacto);
-        }
+    void enviarMensaje() {
+        Mensaje mensaje(this);
+        mensaje.setTexto();
+        mensaje.nomDestinatario();
         mensaje.enviar();
     }
 
 
-    void PunteroParametro(std::vector<Usuario>& vec, const std::string parametro) {
-        for (auto& obj : ListaContactos) {
+
+    void PunteroParametro(std::vector<Usuario> &vec, const std::string parametro) {
+        for (auto &obj: ListaContactos) {
             if (obj->Correo == parametro) {
                 std::cout << &obj << std::endl;
                 //return &obj;
@@ -87,36 +87,43 @@ public:
  *
  * */
 
-class Mensaje {
-private:
-    std::string texto;
-    Usuario* remitente;
-    std::vector<Usuario*>destinatarios;
+    class Mensaje {
+    private:
+        std::string texto;
+        Usuario *remitente;
+        std::vector<Usuario *> destinatarios;
 
-public:
+    public:
+        Mensaje(Usuario *remitente) : remitente(remitente) {}
 
-    //Constructor que guarda el texto y el remitente
-    Mensaje(const std::string& texto, Usuario* remitente): texto(texto), remitente(remitente){}
+        void setTexto() {
+            std::cout << "Ingresa tu mensaje:  ";
+            std::getline(std::cin, texto);
+        }
 
 
-    void nomDestinatario(Usuario*destinatario)
-    {
-        destinatarios.push_back(destinatario);
-    }
-    void enviar(){
+        void nomDestinatario() {
+            std::cout << "Selecciona un destinatario de la lista de contactos:\n";
+            for (int i = 0; i < remitente->ListaContactos.size(); i++) {
+                std::cout << i + 1 << ". " << remitente->ListaContactos[i]->Nombre << "\n";
+            }
+            int seleccion;
+            std::cin >> seleccion;
+            destinatarios.push_back(remitente->ListaContactos[seleccion - 1]);
+        }
 
-            std::cout << "Mensaje de " << remitente -> Nombre << ": " << texto << std::endl;
-            std::cout << "Para: " << std::endl;
-            for (auto& destinatario : destinatarios){
-                std::cout << destinatario -> Nombre << std::endl;
+        void enviar() {
+            std::cout << "Mensaje de " <<
+            remitente->Nombre << ": " << texto << std::endl;
+            for (auto &destinatario: destinatarios) {
+                std::cout << "Para: " << destinatario->Nombre << std::endl;
             }
 
 
-    }
+        }
 
 
-
-};
+    };
 
 };
 
@@ -162,14 +169,13 @@ int main() {
     Usuario Ivan = Usuario("Ivan", "ivan@gmail.com", "ivani");
     Usuario Jesus = Usuario("Jesus", "jesus@gmail.com", "jsus");
     Usuario Jime = Usuario("Jime", "jime@gmail.com", "jims");
-    Usuario Prueba = Usuario("Pruebini", "ppp", "aaa");
 
     Rossi.DatosUsuario();
     Rossi.AgregarContacto(Ivan);
     Rossi.AgregarContacto(Jesus);
     Rossi.AgregarContacto(Jime);
     Rossi.VerListaContactos();
-    Rossi.enviarMensaje("Hola, ¿como estan?");
+    Rossi.enviarMensaje();
 
 
 
