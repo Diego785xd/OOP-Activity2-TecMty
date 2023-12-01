@@ -33,6 +33,7 @@ public:
         User = user;
     }
 
+
     void DatosUsuario(){
         std::cout << Nombre << " " << Correo << " " << User << std::endl;
 
@@ -40,12 +41,13 @@ public:
 
     void AgregarContacto(Usuario &amigo){
 
+
         amigo.DatosUsuario();
-        std::cout << &amigo << std::endl;
         ListaContactos.push_back(&amigo);
         std::cout << "Tu amigo " << amigo.Nombre << " fue agregado" <<std::endl;
 
     }
+
 
     void VerListaContactos(){
 
@@ -56,20 +58,17 @@ public:
         }
     }
 
+    void QuitarContacto(const std::string& correo_eliminar){
 
+        for (auto it = ListaContactos.begin(); it != ListaContactos.end(); ++it) {
+            if ((*it)->Correo == correo_eliminar) {
+                std::cout << "Correo encontrado y eliminado: " << (*it)->Correo << std::endl;
 
-
-    void PunteroParametro(std::vector<Usuario>& vec, const std::string parametro) {
-        for (auto& obj : ListaContactos) {
-            if (obj->Correo == parametro) {
-                std::cout << &obj << std::endl;
-                //return &obj;
+                ListaContactos.erase(it);
+                return;
             }
-
         }
-        //return nullptr; // Return nullptr if not found
     }
-
 
 
 };
@@ -89,11 +88,11 @@ private:
 
 
 public:
+
     // Generador
     void AgregarUsuario(const std::string nombre, const std::string correo, const std::string user){
         Usuarios.emplace_back(nombre, correo, user);
     }
-    // Getters
 
 
 };
@@ -120,9 +119,22 @@ int main() {
 
     Rossi.DatosUsuario();
     Rossi.AgregarContacto(Ivan);
+    Rossi.VerListaContactos();
+    Rossi.QuitarContacto("ivan@gmail.com");
+    Rossi.VerListaContactos();
+
+    /*
+
+    Rossi.AgregarContacto(Ivan);
     Rossi.AgregarContacto(Jesus);
     Rossi.AgregarContacto(Jime);
     Rossi.VerListaContactos();
+
+
+
+    Ivan.AgregarContacto(Jime);
+    Ivan.VerListaContactos();
+    */
 
 
 
