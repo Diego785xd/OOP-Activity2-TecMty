@@ -3,7 +3,8 @@
 #include <string>
 #include <ranges>
 
-
+//Se hace una declaración adelantada de la clase Mensaje
+class Mensaje;
 
 /*
  *
@@ -56,7 +57,13 @@ public:
         }
     }
 
-
+    void enviarMensaje(const std::string& texto){
+        Mensaje mensaje(texto, this);
+        for (auto& contacto : ListaContactos) {
+            mensaje.nomDestinatario(contacto);
+        }
+        mensaje.enviar();
+    }
 
 
     void PunteroParametro(std::vector<Usuario>& vec, const std::string parametro) {
@@ -68,9 +75,48 @@ public:
 
         }
         //return nullptr; // Return nullptr if not found
+
+
+    };
+
+/*
+ *
+ *
+ * Clase Mensaje
+ *
+ *
+ * */
+
+class Mensaje {
+private:
+    std::string texto;
+    Usuario* remitente;
+    std::vector<Usuario*>destinatarios;
+
+public:
+
+    //Constructor que guarda el texto y el remitente
+    Mensaje(const std::string& texto, Usuario* remitente): texto(texto), remitente(remitente){}
+
+
+    void nomDestinatario(Usuario*destinatario)
+    {
+        destinatarios.push_back(destinatario);
+    }
+    void enviar(){
+
+            std::cout << "Mensaje de " << remitente -> Nombre << ": " << texto << std::endl;
+            std::cout << "Para: " << std::endl;
+            for (auto& destinatario : destinatarios){
+                std::cout << destinatario -> Nombre << std::endl;
+            }
+
+
     }
 
 
+
+};
 
 };
 
@@ -123,6 +169,7 @@ int main() {
     Rossi.AgregarContacto(Jesus);
     Rossi.AgregarContacto(Jime);
     Rossi.VerListaContactos();
+    Rossi.enviarMensaje("Hola, ¿como estan?");
 
 
 
