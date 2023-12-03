@@ -3,4 +3,6 @@ project(whatsviernes)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(whatsviernes main.cpp)
+add_executable(whatsviernes main.cpp
+        Usuario.h
+        Sistema.h)
