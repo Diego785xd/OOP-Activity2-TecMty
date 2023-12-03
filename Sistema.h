@@ -12,6 +12,7 @@
 #include <string>
 #include <ranges>
 #include <ctime>
+#include <limits>
 #include "Usuario.h"
 
 class Sistema {
@@ -30,6 +31,39 @@ public:
 
 
 
+};
+
+class Grupo {
+private:
+    std::string nombre;
+    std::vector<Usuario*> miembros;
+    std::vector<std::string> historialMensajes;
+
+public:
+    Grupo(const std::string &nombre) : nombre(nombre) {}
+
+    void agregarMiembro(Usuario &miembro) {
+        miembros.push_back(&miembro);
+    }
+
+    void enviarMensaje(Usuario &remitente, const std::string &mensaje) {
+        std::string mensajeCompleto = remitente.getNombre() + ": " + mensaje;
+        historialMensajes.push_back(mensajeCompleto);
+    }
+
+    void mostrarHistorialMensajes() {
+        for (const auto &mensaje : historialMensajes) {
+            std::cout << mensaje << std::endl;
+        }
+    }
+    void mostrarGrupo() {
+        std::cout << "Nombre del grupo: " << nombre << std::endl;
+        std::cout << "Miembros del grupo: ";
+        for (const auto &miembro : miembros) {
+            std::cout << miembro->getNombre() << ", ";
+        }
+        std::cout << std::endl;
+    }
 };
 
 std::string currentDateTime() {

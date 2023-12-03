@@ -43,6 +43,10 @@ public:
 
     }
 
+    std::string getNombre() const {
+        return Nombre;
+    }
+
 
     void VerListaContactos(){
 
@@ -89,9 +93,7 @@ public:
 
 
         void nomDestinatario() {
-            char continuar;
-            do {
-                std::cout << "Selecciona un destinatario de la lista de contactos:\n";
+            std::cout << "Selecciona un destinatario de la lista de contactos:\n";
                 for (int i = 0; i < remitente->ListaContactos.size(); i++) {
                     std::cout << i + 1 << ". " << remitente->ListaContactos[i]->Nombre << "\n";
                 }
@@ -99,23 +101,9 @@ public:
                 std::cin >> seleccion;
                 destinatarios.push_back(remitente->ListaContactos[seleccion - 1]);
 
-                std::cout << "¿Deseas agregar otro destinatario? (s/n): ";
-                std::cin >> continuar;
 
-                switch (continuar) {
-                    case 's':
-                    case 'S':
-                        break;
-                    case 'n':
-                    case 'N':
-                        continuar = 'n';
-                        break;
-                    default:
-                        std::cout << "Opción no válida. Por favor, introduce 's' para continuar o 'n' para terminar.\n";
-                        continuar = 's';
-                        break;
-                }
-            } while (continuar == 's' || continuar == 'S');
+
+
         }
 
 
@@ -125,11 +113,6 @@ public:
             std::cout << "Para: ";
             for (int i = 0; i < destinatarios.size(); i++) {
                 std::cout << destinatarios[i]->Nombre;
-                if (i < destinatarios.size() - 2) {
-                    std::cout << ", ";
-                } else if (i == destinatarios.size() - 2) {
-                    std::cout << " y ";
-                }
             }
 
             std::cout << std::endl;
